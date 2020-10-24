@@ -4,23 +4,28 @@ const mongoose=require("mongoose");
 
 const app = express();
 
-// const candidateRoutes = require("./routes/main"),
-//         commentRoutes = require("./routes/comments");
+// // mongoose.connect(process.env.DATABASEURL, {
+// mongoose.connect("mongodb://127.0.0.1:27017/kanban", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// })
+// .then(() => console.log('Connected to DB!'))
+// .catch(error => console.log(error.message));
 
-// mongoose.connect
+const candidates = require("./routes/api/candidates.js");//routes to candidates
 
+app.use(bodyParser.json());
 app.set('port',(process.env.PORT || 3000));
-app.use(express.urlencoded({extended:true}));
+// app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname+"/public"));
 
-const posts = require("./routes/api/post.js");
 
-app.use("/api/posts",posts);
+app.use("/api/candidates",candidates);
 
 app.get('/',(req,res)=>{
     console.log("Main Page");
     res.send("main page");
 })
 
-// let port = process.env.PORT;
+let port = process.env.PORT;
 app.listen(app.get('port'),()=> console.log("server has started"));
