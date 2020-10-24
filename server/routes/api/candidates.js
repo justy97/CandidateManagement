@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const express = require("express");
 const mongodb = require("mongodb");
-
 const router = express.Router();
+const Candidate = require("../../models/candidate");
 
 // Get All Candidates
 router.get("/",async(req,res)=>{
@@ -13,13 +13,17 @@ router.get("/",async(req,res)=>{
 // Add Candidate
 router.post("/",async(req,res)=>{
     const candidates = await loadCandidatessCollection();
-    await candidates.insertOne({
-        name:req.body.name
-    });
+    const candidate = new Candidate({
+        name:req.body.name,
+        education:req.body.education,
+        email:req.body.email
+    })
+
+    await candidates.insertOne(candidate);
     res.status(201).send();
 })
 
-// Delete Candidate: nor specified, but can build. 
+// Delete Candidate
 router.delete("/:id",async(req,res)=>{
     const candidates = await loadCandidatessCollection();
     await candidates.deleteOne({
