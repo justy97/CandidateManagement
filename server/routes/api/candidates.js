@@ -1,13 +1,17 @@
-const { Router } = require("express");
 const express = require("express");
-const mongodb = require("mongodb");
 const router = express.Router();
+const mongodb = require("mongodb");
 const Candidate = require("../../models/candidate");
 
 // Get All Candidates
 router.get("/",async(req,res)=>{
-     const candidates = await loadCandidatessCollection();
-     res.send(await candidates.find({}).toArray());
+    //  res.send(await candidates.find({}).toArray());
+     Candidate.find({},(err,allcandidates)=>{
+        if(err) console.log(err);
+        else{
+            res.send(allcandidates);
+        }
+     })
 })
 
 // Add Candidate

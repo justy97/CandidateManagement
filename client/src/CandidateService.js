@@ -31,6 +31,14 @@ class CandidateService{
     static deleteCandidate(id) {
         return axios.delete(`${url}${id}`);
     }
+
+    //Create Comments
+    static insertComment(id,newComment) {
+        return axios.post(`${url}${id}/comments`,{
+            text:newComment.text,
+            author:newComment.author
+        })
+    }
 }
 
 export default CandidateService;

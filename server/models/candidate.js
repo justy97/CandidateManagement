@@ -4,7 +4,12 @@ const candidateSchema = new mongoose.Schema({
     name:String,
     education:String,
     email:String,
-    // comments:[]
+    comments:[
+        {
+            text: String,
+            author:String
+        }
+    ]
 })
 
 module.exports = mongoose.model("Candidate",candidateSchema);

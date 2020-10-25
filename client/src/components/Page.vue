@@ -5,29 +5,29 @@
         <div class="create-candidate">
             <label for="candidate-name">Candidates's name</label>
             <input
-            type="text"
-            id="candidate-name"
-            name="newCandidate[name]"
-            v-model="form.name"
-            placeholder="Name"
+                type="text"
+                id="candidate-name"
+                name="newCandidate[name]"
+                v-model="form.name"
+                placeholder="Name"
             />
 
             <label for="candidate-edu">Candidates's education</label>
             <input
-            type="text"
-            id="candidate-edu"
-            name="newCandidate[education]"
-            v-model="form.education"
-            placeholder="Education"
+                type="text"
+                id="candidate-edu"
+                name="newCandidate[education]"
+                v-model="form.education"
+                placeholder="Education"
             />
 
             <label for="candidate-email">Candidates's email</label>
             <input
-            type="text"
-            id="candidate-email"
-            name="newCandidate[email]"
-            v-model="form.email"
-            placeholder="Email"
+                type="text"
+                id="candidate-email"
+                name="newCandidate[email]"
+                v-model="form.email"
+                placeholder="Email"
             />
 
             <button v-on:click="createCandidate">Submit</button>
@@ -37,37 +37,35 @@
         <p class="error" v-if="error">{{ error }}</p>
         
         <div class="flexbox">
-            <Board id = "board-1">
+            <Board id = "board-1" process="Applied">
                 <Card id = "card-1" draggable="true" class="candidate"
                     v-for="(candidate, index) in candidates"
                     v-bind:item="candidate"
                     v-bind:index="index"
                     v-bind:key="candidate._id"
+                    v-bind:candidate = "candidate"
                 >
-                    <p class="text">{{ candidate.name }}</p>
-                    <p class="text">{{ candidate.education }}</p>
-                    <p class="text">{{ candidate.email }}</p>
-                    <button v-on:click= "deleteCandidate(candidate._id)">Delete</button>
+                    <div class="row">
+                    </div>
+
+                    <button v-on:click= "deleteCandidate(candidate._id)">Delete Candidate</button>
                 </Card>
             </Board>
 
-            <Board id = "board-2">
+            <Board id = "board-2" process="Phone Screen">
    
             </Board>
 
-            <Board id = "board-3">
+            <Board id = "board-3" process="On Site">
             </Board>
 
-            <Board id = "board-4">
+            <Board id = "board-4" process="Offered">
             </Board>
 
-            <Board id = "board-5">
+            <Board id = "board-5" process="Accepted">
             </Board>
 
-            <Board id = "board-6">
-            </Board>
-
-            <Board id = "board-7">
+            <Board id = "board-6" process="Rejected">
             </Board>
         </div>
     </div>
@@ -159,7 +157,7 @@ body{
     justify-content: space-between;
 
     width: 100%;
-    max-width: 1000px;
+    max-width: 1600px;
     height:300vh;
 
     overflow:hidden;
@@ -180,9 +178,10 @@ body{
     padding:15px;
 }
 
-.flexbox .board .card{
+.card{
     padding:15px 25px;
     background-color: white;
+    max-width:230px;
 
     cursor:pointer;
     margin-bottom: 15px;

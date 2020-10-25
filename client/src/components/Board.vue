@@ -5,13 +5,16 @@
         @dragover.prevent
         @drop.prevent="drop"
     >
+        <div class="header">
+            <h1 id="header-text">{{process}}</h1>
+        </div>
         <slot />
     </div>
 </template>
 
 <script>
 export default {
-    props:['id'],
+    props:['id','process'],
     methods:{
         drop:e => {
             const card_id = e.dataTransfer.getData("card_id");
@@ -25,3 +28,13 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+.header{
+    background:purple;
+    color:yellow;
+    width:100%;
+}
+
+</style>
