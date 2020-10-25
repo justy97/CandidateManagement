@@ -1,45 +1,60 @@
 <template>
     <div class="page">
-        <p class="title mt-5">Manage Candidates</p>
-        <!-- CREATE CANDIDATE FORM HERE -->
-        <div class="candidate-creator">
-            <label for="candidate-name">Name</label>
-            <input
-                type="text"
-                id="candidate-name"
-                name="newCandidate[name]"
-                v-model="form.name"
-                placeholder="Name"
-            />
-            <br/>
-            <label for="candidate-edu">Education</label>
-            <input
-                type="text"
-                id="candidate-edu"
-                name="newCandidate[education]"
-                v-model="form.education"
-                placeholder="Education"
-            />
-            <br/>
-            <label for="candidate-email">Email</label>
-            <input
-                type="text"
-                id="candidate-email"
-                name="newCandidate[email]"
-                v-model="form.email"
-                placeholder="Email"
-            />
-            <br/>
-            <button v-on:click="createCandidate">Add new Candidate</button>
+        <div class="jumbotron">
+            <h1 class="display-4">Candidate Manager</h1>
+            <p class="lead">Web app to manage recruitment processes</p>
         </div>
+
+        <div id="newZone">
+            <div class="text-center ">
+                <button class="btn btn-secondary" @click="toggleNewcan = !toggleNewcan">Add new candidate<b-icon icon="chevron-down"></b-icon></button>
+            </div>
+
+            <form v-show="toggleNewcan" class="text-center candidate-creator container">
+                <div class="form-group">
+                    <label for="candidate-name">Name:</label>
+                    <input
+                        type="text"
+                        id="candidate-name"
+                        name="newCandidate[name]"
+                        v-model="form.name"
+                        placeholder="Name"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="candidate-edu">Education:</label>
+                    <input
+                        type="text"
+                        id="candidate-edu"
+                        name="newCandidate[education]"
+                        v-model="form.education"
+                        placeholder="Education"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="candidate-email">Email:</label>
+                    <input
+                        type="text"
+                        id="candidate-email"
+                        name="newCandidate[email]"
+                        v-model="form.email"
+                        placeholder="Email"
+                    />
+                </div>
+
+                <button class="btn btn-info" v-on:click="createCandidate">Add Candidate</button>
+            </form>
+        </div>
+
+        
 
         <hr />
         <p class="error" v-if="error">{{ error }}</p>
         
-        <div class="flexbox">
-
-                <Board id = "board-1" process="Applied" class="board alert-secondary">
-                    <Card draggable="true" class="card"
+        <div class="flexbox container">
+            <div class="row flex-row flex-nowrap">
+                <Board id = "board-1" process="Applied" class="board alert-secondary col-2">
+                    <Card draggable="true" class="card container"
                         v-for="(candidate, index) in candidates"
                         v-bind:item="candidate"
                         v-bind:index="index"
@@ -50,27 +65,27 @@
                         <div class="row">
                         </div>
 
-                        <button v-on:click= "deleteCandidate(candidate._id)">Delete Candidate</button>
+                        <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
                     </Card>
                 </Board>
 
-                <Board id = "board-2" process="Phone Screen" class="board">
+                <Board id = "board-2" process="Phone Screen" class="board col-2">
     
                 </Board>
 
-                <Board id = "board-3" process="On Site" class="board">
+                <Board id = "board-3" process="On Site" class="board col-2">
                 </Board>
 
-                <Board id = "board-4" process="Offered" class="board">
+                <Board id = "board-4" process="Offered" class="board col-2">
                 </Board>
 
-                <Board id = "board-5" process="Accepted" class="board">
+                <Board id = "board-5" process="Accepted" class="board col-2">
                 </Board>
 
-                <Board id = "board-6" process="Rejected" class="board">
+                <Board id = "board-6" process="Rejected" class="board col-2">
                 </Board>
             </div>
-
+        </div>
     </div>
 
 </template>
@@ -96,6 +111,7 @@ export default {
                 education: "",
                 email: "",
             },
+            toggleNewcan:false,
         };
     },
     async created() {
@@ -120,16 +136,24 @@ export default {
 
 
 <style scoped>
+/* .flexbox > .row {
+    overflow-x:auto;
+}
+
+.flexbox > .row > .col{
+    display:inline-block;
+} */
+
 .title{
     font-size:2em;
     text-align: center;
 }
 
 .candidate-creator{
-    width: 1000px;
-    margin:0 auto;
-    height: 200px;
-    text-align: center;
+    text-align:center;
+    background:mintcream;
+    padding-top:2em;
+    padding-bottom:2em;
 }
 
 *{
@@ -143,32 +167,32 @@ body{
 }
 
 .flexbox{
-    display:flex;
     justify-content: space-between;
 
     width: 100%;
-    max-width: 1600px;
+    max-width: 2000px;
     height:200vh;
 
-    overflow:hidden;
+    /* overflow:hidden; */
 
     margin:0 auto;
     padding: 15px;
 }
 
 .flexbox .board{
-    display:flex;
     flex-direction: column;
 
     width:100%;
-    max-width: 250px;
+    max-width: 280px; 
+    width:272px;
+    width:25%;
+    min-height:75vh;
     background-color: lavender;
     border:white 3px solid;
     padding:15px;
 }
 
 .card{
-    padding:15px 25px;
     background-color: white;
     border: 5px solid green;
     max-width:230px;
@@ -179,32 +203,21 @@ body{
     margin-top:2em;
 }
 
-
-/* div.container {
-  max-width: 800px;
-  margin: 0 auto;
+#newZone{
+    padding: 0.5em 2em 1em 2em;
+    margin-top:2em;
 }
 
-p.error {
-  border: 1px solid #ff5b5f;
-  background-color: #ffc5c1;
-  padding: 10px;
-  margin-bottom: 15px;
+#board-4{
+    background-color:teal;
 }
 
-div.candidate {
-  position: relative;
-  border: 1px solid #5bd658;
-  background-color: #bcffb8;
-  padding: 10px 10px 30px 10px;
-  margin-bottom: 15px;
+#board-5{
+    background-color: greenyellow;
 }
 
-p.name {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 0;
-} */
-
+#board-6{
+    background-color:tomato;
+}
 
 </style>
