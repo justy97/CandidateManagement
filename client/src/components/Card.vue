@@ -7,9 +7,9 @@
         @dragover.stop
     >
         <div class="div">
-            <h3>{{candidate.name}}</h3>
-            <p class="text">{{ candidateData.education }}</p>
-            <p class="text">{{ candidateData.email }}</p>
+            <p class="can-name">{{candidate.name}}<p>
+            <p class="can-info">{{ candidateData.education }}</p>
+            <p class="can-info">{{ candidateData.email }}</p>
         </div>
 
         <div class="div">
@@ -65,5 +65,17 @@ export default {
 <style scoped>
     .comment-board{
         border:2px solid black;
+    }
+
+    .can-name{
+        text-align: center;
+        font-size: 1.5em;
+        background-color: grey;
+        color:white;
+    }
+
+    .can-info{
+        text-align: center;
+        font-size: 1.0em;
     }
 </style>

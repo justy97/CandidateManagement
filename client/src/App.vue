@@ -31,37 +31,4 @@ body{
     background-color:aliceblue;
 }
 
-.flexbox{
-    display:flex;
-    justify-content: space-between;
-
-    width: 100%;
-    max-width: 768px;
-    height:50vh;
-
-    overflow:hidden;
-
-    margin:0 auto;
-    padding: 15px;
-}
-
-.flexbox .board{
-    display:flex;
-    flex-direction: column;
-
-    width:100%;
-    max-width: 250px;
-
-    background-color:black;
-    border:white 3px solid;
-    padding:15px;
-}
-
-.flexbox .board .card{
-    padding:15px 25px;
-    background-color: white;
-
-    cursor:pointer;
-    margin-bottom: 15px;
-}
 </style>

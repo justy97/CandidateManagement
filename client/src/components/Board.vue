@@ -6,7 +6,7 @@
         @drop.prevent="drop"
     >
         <div class="header">
-            <h1 id="header-text">{{process}}</h1>
+            <div id="header-text">{{process}}</div>
         </div>
         <slot />
     </div>
@@ -32,9 +32,12 @@ export default {
 <style scoped>
 
 .header{
-    background:purple;
-    color:yellow;
+    background:lightslategrey;
+    color:white;
     width:100%;
+    font-size:1.5em;
+    text-align: center;
 }
+
 
 </style>
