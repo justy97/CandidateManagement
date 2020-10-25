@@ -10,6 +10,7 @@
             <p class="can-name">{{candidate.name}}<p>
             <p class="can-info">{{ candidateData.education }}</p>
             <p class="can-info">{{ candidateData.email }}</p>
+            <p class="can-info">{{ candidateData.resume }}</p>
         </div>
 
         <button class="btn btn-sm btn-outline-secondary" @click="toggleComments = !toggleComments">show comments<b-icon icon="chevron-down"></b-icon></button>

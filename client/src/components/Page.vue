@@ -10,7 +10,7 @@
                 <button class="btn btn-secondary" @click="toggleNewcan = !toggleNewcan">Add new candidate<b-icon icon="chevron-down"></b-icon></button>
             </div>
 
-            <form v-show="toggleNewcan" class="text-center candidate-creator container">
+            <form v-show="toggleNewcan" class="text-center candidate-creator container" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="candidate-name">Name:</label>
                     <input
@@ -41,12 +41,30 @@
                         placeholder="Email"
                     />
                 </div>
+                 <!-- Testing File Upload  -->
+                <div class="file">
+                    <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+                        <div class="fields">
+                            <label>Upload File</label><br />
+                            <input
+                                type="file"
+                                ref="file"
+                                @change="onSelect"
+                            />
+                        </div>
+                        <div class="fields">
+                            <button>Submit</button>
+                        </div>
+                        <div class="message">
+                            <h5>{{message}}</h5>
+                        </div>
+                    </form>
+                </div>
 
                 <button class="btn btn-info" v-on:click="createCandidate">Add Candidate</button>
             </form>
         </div>
 
-        
 
         <hr />
         <p class="error" v-if="error">{{ error }}</p>
@@ -95,6 +113,7 @@ import CandidateService from "../CandidateService";
 import Board from "./Board.vue"
 import Card from "./Card.vue"
 // import draggable from "vuedraggable";
+// import axios from "axios";
 
 export default {
     name: "Page",
@@ -110,8 +129,11 @@ export default {
                 name: "",
                 education: "",
                 email: "",
+                file1:""
             },
             toggleNewcan:false,
+            file:"",
+            message:""
         };
     },
     async created() {
@@ -123,13 +145,31 @@ export default {
     },
     methods: {
         async createCandidate() {
-            await CandidateService.insertCandidate(this.form);
+            const formData = new FormData();
+            formData.append("file",this.file);
+            try{
+                await CandidateService.insertCandidate(this.form,formData);
+                this.message = "successful"
+            }
+            catch(err){
+                console.log(err);
+                this.message="something went wrong"
+            }
             this.candidates = await CandidateService.getCandidates();
         },
         async deleteCandidate(id) {
             await CandidateService.deleteCandidate(id);
             this.candidates = await CandidateService.getCandidates();
         },
+        onSelect(){//on select file, based on onChange event
+            const file = this.$refs.file.files[0];
+            this.file = file;
+        },
+        async onSubmit(){//submit file
+            const formData = new FormData();
+            formData.append("file",this.file);
+
+        }
     },
 };
 </script>

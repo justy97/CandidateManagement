@@ -1,6 +1,9 @@
 import axios from "axios";
+// import multer from "multer";
+
 
 const url = "http://localhost:3000/api/candidates/";
+// const upload = multer({dest:"uploads/"});
 
 class CandidateService{
     //Get Candidates
@@ -19,12 +22,41 @@ class CandidateService{
     }
 
     //Create Candidates
-    static insertCandidate(newCandidate){
-        return axios.post(url,{
-            name:newCandidate.name,
-            education:newCandidate.education,
-            email:newCandidate.email
+    static insertCandidate(newCandidate,formData){
+        // const bodyFormData = new FormData();
+        formData.append("file",formData);
+        formData.append("name",newCandidate.name);
+        formData.append("education",newCandidate.education);
+        formData.append("email",newCandidate.email);
+        return axios({
+            method: 'post',
+            url: `${url}`,
+            // data: {
+            //     bodyFormData,
+            //     name:newCandidate.name,
+            //     education:newCandidate.education,
+            //     email:newCandidate.email
+            // },
+            data:formData,
+            // data: bodyFormData,
+            headers: {'Content-Type': 'multipart/form-data' }
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
         });
+
+
+        // axios.post(url,)
+        // return axios.post(url,{
+        //     name:newCandidate.name,
+        //     education:newCandidate.education,
+        //     email:newCandidate.email
+        // });
     }
 
     //Delete Candidates
@@ -38,6 +70,26 @@ class CandidateService{
             text:newComment.text,
             author:newComment.author
         })
+    }
+
+    //Upload file
+    static uploadFile(formData){
+        const bodyFormData = new FormData();
+        bodyFormData.append("file",formData);
+        return axios({
+            method: 'post',
+            url: `${url}/upload`,
+            data: formData,
+            headers: {'Content-Type': 'multipart/form-data' }
+            })
+            .then(function (response) {
+                //handle success
+                console.log(response);
+            })
+            .catch(function (response) {
+                //handle error
+                console.log(response);
+            });
     }
 }
 

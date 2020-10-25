@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const mongodb = require("mongodb");
 const Candidate = require("../../models/candidate");
+const multer = require("multer");
+
+// file upload setup
+const storage = multer.diskStorage({
+    destination:"./uploads",
+    filename:function(req,file,cb){
+        cb(null,file.originalname+'-'+Date.now()+".pdf");
+    }
+});
+
+const upload = multer({storage:storage});
 
 // Get All Candidates
 router.get("/",async(req,res)=>{
@@ -15,14 +26,18 @@ router.get("/",async(req,res)=>{
 })
 
 // Add Candidate
-router.post("/",async(req,res)=>{
+router.post("/",upload.single("file"),async(req,res)=>{
     const candidates = await loadCandidatessCollection();
+    // console.log("req.body.name: "+req.body.name);
+    let fileName = req.file.filename;
+    // console.log(fileName);
+    res.json({file:req.file});
     const candidate = new Candidate({
         name:req.body.name,
         education:req.body.education,
-        email:req.body.email
+        email:req.body.email,
+        resume:fileName
     })
-
     await candidates.insertOne(candidate);
     res.status(201).send();
 })
@@ -34,6 +49,14 @@ router.delete("/:id",async(req,res)=>{
         _id: new mongodb.ObjectID(req.params.id)
     });
     res.status(200).send();
+})
+
+// Upload File
+router.post("/upload",upload.single("file"),async(req,res)=>{
+    console.log("uploaded file");
+    let fileName = req.file.filename;
+    console.log(fileName);
+    res.json({file:req.file});
 })
 
 async function loadCandidatessCollection() {

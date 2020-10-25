@@ -2,9 +2,11 @@
     <div id="app">
         <Page />
     </div>
+
 </template>
 
 <script>
+// import CandidateService from './CandidateService';
 // import Board from "./components/Board.vue"
 // import Card from "./components/Card.vue"
 import Page from './components/Page.vue'
@@ -15,7 +17,7 @@ export default {
         // Board,
         // Card,
         Page
-    }
+    },
 }
 </script>
 
