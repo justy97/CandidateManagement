@@ -1,28 +1,67 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <BoardComponent />
-  </div>
+    <div id="app">
+        <Page />
+    </div>
 </template>
 
 <script>
-import BoardComponent from './components/BoardComponent.vue'
+// import Board from "./components/Board.vue"
+// import Card from "./components/Card.vue"
+import Page from './components/Page.vue'
 
 export default {
-  name: 'App',
-  components: {
-    BoardComponent
-  }
+    name: 'App',
+    components: {
+        // Board,
+        // Card,
+        Page
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+}
+
+body{
+    background-color:aliceblue;
+}
+
+.flexbox{
+    display:flex;
+    justify-content: space-between;
+
+    width: 100%;
+    max-width: 768px;
+    height:50vh;
+
+    overflow:hidden;
+
+    margin:0 auto;
+    padding: 15px;
+}
+
+.flexbox .board{
+    display:flex;
+    flex-direction: column;
+
+    width:100%;
+    max-width: 250px;
+
+    background-color:black;
+    border:white 3px solid;
+    padding:15px;
+}
+
+.flexbox .board .card{
+    padding:15px 25px;
+    background-color: white;
+
+    cursor:pointer;
+    margin-bottom: 15px;
 }
 </style>
