@@ -36,7 +36,8 @@ router.post("/",upload.single("file"),async(req,res)=>{
         name:req.body.name,
         education:req.body.education,
         email:req.body.email,
-        resume:fileName
+        resume:fileName,
+        state:0
     })
     await candidates.insertOne(candidate);
     res.status(201).send();
@@ -49,6 +50,20 @@ router.delete("/:id",async(req,res)=>{
         _id: new mongodb.ObjectID(req.params.id)
     });
     res.status(200).send();
+})
+
+// Update Candidate State
+router.put("/:id/edit",async(req,res)=>{
+    const candidates = await loadCandidatessCollection();
+    const newState = req.body.newState;
+    try{
+        candidates.updateOne(
+            {"_id" : new mongodb.ObjectId(req.params.id)},
+            { $set:{"state":newState }}
+        );
+    }catch(err){
+        console.log(err);
+    }
 })
 
 // Upload File

@@ -64,13 +64,44 @@
 
 
         <hr />
-        <p class="error" v-if="error">{{ error }}</p>
+        <b-alert show variant="danger" v-if="error">{{ error }}</b-alert>
         
+<!-- Currently: Page.vue handles Card generation: very repetitive. May refactor Card generation into Board level -->
         <div class="flexbox container">
             <div class="row flex-row flex-nowrap">
-                <Board id = "board-1" process="Applied" class="board alert-secondary col-2">
+                <Board id = "board-1" process="Applied" class="board col-2">
                     <Card draggable="true" class="card container"
-                        v-for="(candidate, index) in candidates"
+                        v-for="(candidate, index) in can_col[0]"
+                        v-bind:item="candidate"
+                        v-bind:index="index"
+                        v-bind:key="candidate._id"
+                        v-bind:id="candidate._id"
+                        v-bind:candidate = "candidate"
+                    >
+                        <div class="row">
+                        </div>
+                        <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
+                    </Card>
+                </Board>
+
+                <Board id = "board-2" process="Phone Screen" class="board col-2">
+                      <Card draggable="true" class="card container"
+                        v-for="(candidate, index) in can_col[1]"
+                        v-bind:item="candidate"
+                        v-bind:index="index"
+                        v-bind:key="candidate._id"
+                        v-bind:id="candidate._id"
+                        v-bind:candidate = "candidate"
+                    >
+                        <div class="row">
+                        </div>
+                        <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
+                    </Card>
+                </Board>
+
+                <Board id = "board-3" process="On Site" class="board col-2">
+                    <Card draggable="true" class="card container"
+                        v-for="(candidate, index) in can_col[2]"
                         v-bind:item="candidate"
                         v-bind:index="index"
                         v-bind:key="candidate._id"
@@ -81,23 +112,52 @@
                         </div>
 
                         <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
-                    </Card>
-                </Board>
-
-                <Board id = "board-2" process="Phone Screen" class="board col-2">
-    
-                </Board>
-
-                <Board id = "board-3" process="On Site" class="board col-2">
+                    </Card>                    
                 </Board>
 
                 <Board id = "board-4" process="Offered" class="board col-2">
+                    <Card draggable="true" class="card container"
+                        v-for="(candidate, index) in can_col[3]"
+                        v-bind:item="candidate"
+                        v-bind:index="index"
+                        v-bind:key="candidate._id"
+                        v-bind:id="candidate._id"
+                        v-bind:candidate = "candidate"
+                    >
+                        <div class="row">
+                        </div>
+                        <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
+                    </Card>
                 </Board>
 
                 <Board id = "board-5" process="Accepted" class="board col-2">
+                    <Card draggable="true" class="card container"
+                        v-for="(candidate, index) in can_col[4]"
+                        v-bind:item="candidate"
+                        v-bind:index="index"
+                        v-bind:key="candidate._id"
+                        v-bind:id="candidate._id"
+                        v-bind:candidate = "candidate"
+                    >
+                        <div class="row">
+                        </div>
+                        <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
+                    </Card>
                 </Board>
 
                 <Board id = "board-6" process="Rejected" class="board col-2">
+                    <Card draggable="true" class="card container"
+                        v-for="(candidate, index) in can_col[5]"
+                        v-bind:item="candidate"
+                        v-bind:index="index"
+                        v-bind:key="candidate._id"
+                        v-bind:id="candidate._id"
+                        v-bind:candidate = "candidate"
+                    >
+                        <div class="row">
+                        </div>
+                        <button class="btn btn-danger" v-on:click= "deleteCandidate(candidate._id)">Delete</button>
+                    </Card>
                 </Board>
             </div>
         </div>
@@ -107,8 +167,8 @@
 
 <script>
 import PostService from "../PostService";
-import Board from "./Board.vue"
-import Card from "./Card.vue"
+import Board from "./Board.vue";
+import Card from "./Card.vue";
 // import draggable from "vuedraggable";
 // import axios from "axios";
 
@@ -129,12 +189,20 @@ export default {
             },
             toggleNewcan:false,
             file:"",
-            message:""
+            message:"",
+            can_col:[[],[],[],[],[],[]],
         };
     },
     async created() {
         try {
             this.candidates = await PostService.getCandidates();
+            let len = this.candidates.length;
+            if(len === 0) return;
+            for(let i = 0; i < len; i++){
+                let can = this.candidates[i];
+                // alert(can.state);
+                this.can_col[can.state].push(can);
+            }
         } catch (err) {
             this.error = err.message;
         }
@@ -171,17 +239,13 @@ export default {
             const file = this.$refs.file.files[0];
             this.file = file;
         },
+
     },
 };
 </script>
 
 
 <style scoped>
-.title{
-    font-size:2em;
-    text-align: center;
-}
-
 .candidate-creator{
     text-align:center;
     background:rgb(178, 185, 182);
@@ -212,7 +276,6 @@ body{
 
 .flexbox .board{
     flex-direction: column;
-
     width:100%;
     max-width: 280px; 
     width:272px;

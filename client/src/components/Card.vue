@@ -10,7 +10,7 @@
             <p class="can-name">{{candidate.name}}<p>
             <p class="can-info">{{ candidateData.education }}</p>
             <p class="can-info">{{ candidateData.email }}</p>
-            <p class="can-rating">Current rating: <span class="rating-val">{{ rating }}</span></p> 
+            <p class="can-rating">Current rating: <span class="rating-val">{{ (Math.round(rating*100)/100).toFixed(2) }}</span></p> 
             <button class="btn btn-sm btn-outline-secondary" @click="resumeFunction(candidateData.resume)" >view Resume</button>
         </div>
 

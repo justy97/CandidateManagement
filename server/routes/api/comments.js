@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router({mergeParams:true});
 const mongodb = require("mongodb");
 const Candidate = require("../../models/candidate");
-const Comment = require("../../models/comment");
+// const Comment = require("../../models/comment");
 
 // Add Comment
 router.post("/",(req,res)=>{

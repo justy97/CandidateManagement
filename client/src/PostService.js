@@ -64,6 +64,18 @@ class PostService{
     static getResume(resume){
         window.open(`${url}asset/${resume}`, "_blank");
     }
+
+    static changeCanState(can_id,state){
+        // console.log("function");
+        // console.log(state);
+        // console.log(can_id);
+        console.log(`${url}${can_id}/edit`);
+        return axios.put(`${url}${can_id}/edit`,{
+            newState:state,
+        }).then().catch(err=>{
+            console.log(err);
+        })
+    }
 }
 
 export default PostService;
