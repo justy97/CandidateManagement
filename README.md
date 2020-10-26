@@ -8,7 +8,7 @@ A kanban board website for recruiters to manage candidates<br/>
 * Upload Candidate
     * Click the **Add new candidate** button to show the form and upload new candidates with the necessary infos, and a Resume File. All fields are required to submit.
     * Uploaded candidates have their information stored in MongoDB.
-    * Respective uploaded Resume can be accessed through **view Resume** button on the info card.
+    * Respective uploaded Resume is stored on Applicatino server. **On the deployed version, file will be cleansed and can not be accessed again upon Heroku app reboot. Potential solution: use AWS S3 to store file**. Can be accessed through **view Resume** button on the info card.
     * The **Delete** button will delete the candidate from the database, but will not delete the Resume from the server.
 
 * Drag and drop:
@@ -39,8 +39,8 @@ A kanban board website for recruiters to manage candidates<br/>
 * mongoose
 * multer
 
-## TODOs
-    - Deploy
+## TODOs/Known issues
+    - File uploads to Heroku will be automatically lost: need to migrate to AWS S3 for file storage.
     - Implement user login to protect the system. Only login user is able to access the page.
     - Errors and vulnerabilities check
     - Maybe delete file on deleting candidates.
