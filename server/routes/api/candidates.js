@@ -86,7 +86,7 @@ router.get('/asset/:filename',(req,res)=>{
 
 async function loadCandidatessCollection() {
     const client = await mongodb.MongoClient.connect
-    ("mongodb://127.0.0.1:27017/kanban",{
+    (process.env.DATABASEURL,{
         useNewUrlParser:true,
         useUnifiedTopology:true
     });
