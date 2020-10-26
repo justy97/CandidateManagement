@@ -1,4 +1,4 @@
-# Kanban Project: a kanban board to manage job applicants
+# Kanban Project: Candidate Manager
 A kanban board website for recruiters to manage candidates<br/>
 
 ## Demo

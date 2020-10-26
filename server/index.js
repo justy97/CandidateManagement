@@ -15,7 +15,17 @@ mongoose.connect("mongodb://127.0.0.1:27017/kanban", {
 .catch(error => console.log(error.message));
 
 app.use(bodyParser.json());
-app.set('port',(process.env.PORT || 3000));
+
+// Production config
+if(process.env.NODE_ENV === 'production'){
+    //Static folder
+    app.use(express.static(__dirname+"/public/"));
+
+    //Single page application
+    app.get(/.*/,(req,res)=>res.sendFile(__dirname+"/public/index.html"));
+}
+
+app.set('port',(process.env.PORT || 5000));
 // app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname+"/public"));
 app.use(cors());

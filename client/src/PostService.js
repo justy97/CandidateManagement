@@ -2,7 +2,7 @@ import axios from "axios";
 // import multer from "multer";
 
 
-const url = "http://localhost:3000/api/candidates/";
+const url = "api/candidates/";
 // const upload = multer({dest:"uploads/"});
 
 class PostService{
