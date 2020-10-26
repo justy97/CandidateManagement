@@ -18,7 +18,7 @@
                         id="candidate-name"
                         name="newCandidate[name]"
                         v-model="form.name"
-                        placeholder="Name"
+                        placeholder=" Name"
                     />
                 </div>
                 <div class="form-group">
@@ -28,7 +28,7 @@
                         id="candidate-edu"
                         name="newCandidate[education]"
                         v-model="form.education"
-                        placeholder="Education"
+                        placeholder=" Education"
                     />
                 </div>
                 <div class="form-group">
@@ -38,12 +38,12 @@
                         id="candidate-email"
                         name="newCandidate[email]"
                         v-model="form.email"
-                        placeholder="Email"
+                        placeholder=" Email"
                     />
                 </div>
-                 <!-- Testing File Upload  -->
+                 <!-- File Upload  -->
                 <div class="file">
-                    <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+                    <form enctype="multipart/form-data">
                         <div class="fields">
                             <label>Upload File</label><br />
                             <input
@@ -52,15 +52,12 @@
                                 @change="onSelect"
                             />
                         </div>
-                        <div class="fields">
-                            <button>Submit</button>
-                        </div>
                         <div class="message">
                             <h5>{{message}}</h5>
                         </div>
                     </form>
                 </div>
-
+                <br />
                 <button class="btn btn-info" v-on:click="createCandidate">Add Candidate</button>
             </form>
         </div>
@@ -109,7 +106,7 @@
 </template>
 
 <script>
-import CandidateService from "../CandidateService";
+import PostService from "../PostService";
 import Board from "./Board.vue"
 import Card from "./Card.vue"
 // import draggable from "vuedraggable";
@@ -129,7 +126,6 @@ export default {
                 name: "",
                 education: "",
                 email: "",
-                file1:""
             },
             toggleNewcan:false,
             file:"",
@@ -138,52 +134,49 @@ export default {
     },
     async created() {
         try {
-            this.candidates = await CandidateService.getCandidates();
+            this.candidates = await PostService.getCandidates();
         } catch (err) {
             this.error = err.message;
         }
     },
     methods: {
         async createCandidate() {
+            if(! this.file){
+                alert("please upload file");
+                return;
+            }
+            if(!this.form.name || !this.form.education || !this.form.email){
+                alert("please fill in information");
+                return;
+            }
+
             const formData = new FormData();
             formData.append("file",this.file);
             try{
-                await CandidateService.insertCandidate(this.form,formData);
+                await PostService.insertCandidate(this.form,formData);
                 this.message = "successful"
             }
             catch(err){
                 console.log(err);
                 this.message="something went wrong"
             }
-            this.candidates = await CandidateService.getCandidates();
+            this.candidates = await PostService.getCandidates();
         },
         async deleteCandidate(id) {
-            await CandidateService.deleteCandidate(id);
-            this.candidates = await CandidateService.getCandidates();
+            await PostService.deleteCandidate(id);
+            this.candidates = await PostService.getCandidates();
+            window.location.reload();
         },
         onSelect(){//on select file, based on onChange event
             const file = this.$refs.file.files[0];
             this.file = file;
         },
-        async onSubmit(){//submit file
-            const formData = new FormData();
-            formData.append("file",this.file);
-
-        }
     },
 };
 </script>
 
 
 <style scoped>
-/* .flexbox > .row {
-    overflow-x:auto;
-}
-
-.flexbox > .row > .col{
-    display:inline-block;
-} */
-
 .title{
     font-size:2em;
     text-align: center;
@@ -191,7 +184,7 @@ export default {
 
 .candidate-creator{
     text-align:center;
-    background:mintcream;
+    background:rgb(178, 185, 182);
     padding-top:2em;
     padding-bottom:2em;
 }
@@ -212,9 +205,7 @@ body{
     width: 100%;
     max-width: 2000px;
     height:200vh;
-
     /* overflow:hidden; */
-
     margin:0 auto;
     padding: 15px;
 }
@@ -234,7 +225,7 @@ body{
 
 .card{
     background-color: white;
-    border: 5px solid green;
+    border: 5px solid rgb(115, 88, 165);
     max-width:230px;
 
     cursor:pointer;

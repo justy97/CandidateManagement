@@ -3,6 +3,7 @@ const router = express.Router();
 const mongodb = require("mongodb");
 const Candidate = require("../../models/candidate");
 const multer = require("multer");
+const fs = require("fs");
 
 // file upload setup
 const storage = multer.diskStorage({
@@ -28,7 +29,6 @@ router.get("/",async(req,res)=>{
 // Add Candidate
 router.post("/",upload.single("file"),async(req,res)=>{
     const candidates = await loadCandidatessCollection();
-    // console.log("req.body.name: "+req.body.name);
     let fileName = req.file.filename;
     // console.log(fileName);
     res.json({file:req.file});
@@ -57,6 +57,16 @@ router.post("/upload",upload.single("file"),async(req,res)=>{
     let fileName = req.file.filename;
     console.log(fileName);
     res.json({file:req.file});
+})
+
+// GET local pdf
+router.get('/asset/:filename',(req,res)=>{  
+    const filePath = "./uploads/"+req.params.filename;
+    fs.readFile(filePath,(err,data)=>{
+        // console.log("err:" + err);
+        res.contentType("application/pdf");
+        res.send(data);
+    })
 })
 
 async function loadCandidatessCollection() {

@@ -5,7 +5,7 @@ import axios from "axios";
 const url = "http://localhost:3000/api/candidates/";
 // const upload = multer({dest:"uploads/"});
 
-class CandidateService{
+class PostService{
     //Get Candidates
     static getCandidates(){
         return new Promise((resolve,reject) => {
@@ -23,7 +23,6 @@ class CandidateService{
 
     //Create Candidates
     static insertCandidate(newCandidate,formData){
-        // const bodyFormData = new FormData();
         formData.append("file",formData);
         formData.append("name",newCandidate.name);
         formData.append("education",newCandidate.education);
@@ -31,66 +30,40 @@ class CandidateService{
         return axios({
             method: 'post',
             url: `${url}`,
-            // data: {
-            //     bodyFormData,
-            //     name:newCandidate.name,
-            //     education:newCandidate.education,
-            //     email:newCandidate.email
-            // },
             data:formData,
-            // data: bodyFormData,
             headers: {'Content-Type': 'multipart/form-data' }
         })
         .then(function (response) {
             //handle success
             console.log(response);
         })
-        .catch(function (response) {
+        .catch(function (err) {
             //handle error
-            console.log(response);
+            console.log(err);
         });
-
-
-        // axios.post(url,)
-        // return axios.post(url,{
-        //     name:newCandidate.name,
-        //     education:newCandidate.education,
-        //     email:newCandidate.email
-        // });
     }
 
     //Delete Candidates
     static deleteCandidate(id) {
-        return axios.delete(`${url}${id}`);
+        axios.delete(`${url}${id}`).then().catch(err=>{
+            console.log(err)
+        });
     }
 
     //Create Comments
     static insertComment(id,newComment) {
         return axios.post(`${url}${id}/comments`,{
             text:newComment.text,
-            author:newComment.author
+            author:newComment.author,
+            rating:newComment.rating
+        }).then().catch(err=>{
+            console.log(err);
         })
     }
 
-    //Upload file
-    static uploadFile(formData){
-        const bodyFormData = new FormData();
-        bodyFormData.append("file",formData);
-        return axios({
-            method: 'post',
-            url: `${url}/upload`,
-            data: formData,
-            headers: {'Content-Type': 'multipart/form-data' }
-            })
-            .then(function (response) {
-                //handle success
-                console.log(response);
-            })
-            .catch(function (response) {
-                //handle error
-                console.log(response);
-            });
+    static getResume(resume){
+        window.open(`${url}asset/${resume}`, "_blank");
     }
 }
 
-export default CandidateService;
+export default PostService;

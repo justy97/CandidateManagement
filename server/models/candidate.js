@@ -8,7 +8,8 @@ const candidateSchema = new mongoose.Schema({
     comments:[
         {
             text: String,
-            author:String
+            author:String,
+            rating:Number
         }
     ]
 })
