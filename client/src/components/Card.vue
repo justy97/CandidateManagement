@@ -33,9 +33,9 @@
             <select class="form-control form-control-sm" v-model="form.rating">
                 <option value="1">1 star</option>
                 <option value="2">2 star</option>
-                <option selected value="3">3 star</option>
-                <option value="3">4 star</option>
-                <option value="3">5 star</option>
+                <option value="3">3 star</option>
+                <option value="4">4 star</option>
+                <option value="5">5 star</option>
             </select>
             <div class="form-group">
                 <textarea class="form-control form-control-sm" id="comment-text" v-model="form.text" placeholder="Comment:" rows="3"></textarea>

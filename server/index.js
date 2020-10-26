@@ -22,8 +22,7 @@ if(process.env.NODE_ENV === 'production'){
     //Static folder
     app.use(express.static(__dirname+"/public/"));
 
-    //Single page application
-    app.get(/.*/,(req,res)=>res.sendFile(__dirname+"/public/index.html"));
+    // app.get(/.*/,(req,res)=>res.sendFile(__dirname+"/public/index.html"));
 }
 
 app.set('port',(process.env.PORT || 5000));
@@ -41,5 +40,5 @@ app.get('/',(req,res)=>{
     res.send("main page");
 })
 
-let port = process.env.PORT;
+const port = process.env.PORT || 5000;
 app.listen(app.get('port'),()=> console.log("server has started"));
