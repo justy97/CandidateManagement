@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose=require("mongoose");
@@ -6,8 +7,8 @@ const multer = require("multer");
 
 const app = express();
 
-// mongoose.connect(process.env.DATABASEURL, {
-mongoose.connect("mongodb://127.0.0.1:27017/kanban", {
+mongoose.connect(process.env.DATABASEURL, {
+// mongoose.connect("mongodb://127.0.0.1:27017/kanban", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
